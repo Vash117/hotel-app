@@ -25,12 +25,8 @@ function addFloor() {
   floors.push(floor);
   renderFloors(floors);
 }
-export function addRoom(floor) {
-  console.log(floor.rooms);
-  let room = {
-    number: floor.rooms.length + 1,
-    type: "single",
-  };
+export function addRoom(floor,room) {
+  room.status = true
   floor.rooms.push(room);
   let result = curentFloorTemplate(floor);
   render(result, document.querySelector("main"));

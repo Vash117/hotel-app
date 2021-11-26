@@ -1,5 +1,6 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
-import { floors, addRoom,renderFloors ,loadHome} from "./app.js";
+import { floors, renderFloors ,loadHome} from "./app.js";
+import { roomForm } from "./AddRoom.js";
 
 export const floorsTemplate = (addFloor, floors) => html`
 <div class="container">
@@ -43,7 +44,7 @@ export const curentFloorTemplate = (floor) => html`
       aria-label="Close"
     ></button>
     <h1>Floor ${ floor.floorNumber}</h1>
-    <button @click=${(e) => addRoom(floor)} class="btn btn-success">
+    <button @click=${(e) => roomForm(floor)} class="btn btn-success">
       Create room
     </button>
     <div class="row text-center justify-content-center">
@@ -55,7 +56,7 @@ export const curentFloorTemplate = (floor) => html`
   </div>
 `;
 const roomTemplate = (room) => html`
-  <div class="col-lg-8 bg-success my-1">
+  <div class="col-lg-8 ${room.status ? 'bg-success my-1' : 'bg-danger'}">
     <div class="card">
       <div class="card-body">
         <button
@@ -63,27 +64,27 @@ const roomTemplate = (room) => html`
           class="btn-close float-end bg-danger"
           aria-label="Close"
         ></button>
-        <h5 class="card-title">Room ${room.number}</h5>
-        <p class="card-text">${room.type}</p>
-        <div class="accordion" id="accordionExample${room.number}">
+        <h5 class="card-title">Room ${room.roomNumber}</h5>
+        <p class="card-text">${room.roomType}</p>
+        <div class="accordion" id="accordionExample${room.roomNumber}">
           <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo${room.number}">
+            <h2 class="accordion-header" id="headingTwo${room.roomNumber}">
               <button
                 class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo${room.number}"
+                data-bs-target="#collapseTwo${room.roomNumber}"
                 aria-expanded="false"
-                aria-controls="collapseTwo${room.number}"
+                aria-controls="collapseTwo${room.roomNumber}"
               >
                 Room details
               </button>
             </h2>
             <div
-              id="collapseTwo${room.number}"
+              id="collapseTwo${room.roomNumber}"
               class="accordion-collapse collapse"
-              aria-labelledby="headingTwo${room.number}"
-              data-bs-parent="#accordionExample${room.number}"
+              aria-labelledby="headingTwo${room.roomNumber}"
+              data-bs-parent="#accordionExample${room.roomNumber}"
             >
               <div class="accordion-body">
                 <h5>Guest name</h5>
