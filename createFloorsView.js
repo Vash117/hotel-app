@@ -36,7 +36,7 @@ const floorTemplate = (floor, i) => html`
   </div>
 `;
 export const curentFloorTemplate = (floor) => html`
-  <div class="container text-center my-3">
+  <div @click=${e =>deleteRoom(e,floor)} class="container text-center my-3">
     <button
     @click=${closeFloor}
       type="button"
@@ -113,4 +113,19 @@ function showRooms(e) {
 
 function closeFloor(e){
     renderFloors(floors)
+}
+
+function deleteRoom(e,floor){
+  if(e.target.tagName == 'BUTTON' && e.target.classList.contains('bg-danger')){
+    let confirmed = confirm('Are you sure you want to remove this room?')
+    if(confirmed){
+    let index = e.target.parentNode.querySelector('.card-title').innerText.split(' ')[1]
+    index=Number(index) - 1
+    floor.rooms.splice(index,1)
+    
+    let result = curentFloorTemplate(floor);
+    render(result, document.querySelector("main"));
+    }
+    
+  }
 }

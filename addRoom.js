@@ -30,6 +30,7 @@ export function roomForm(floor) {
     console.log('here');
       e.preventDefault();   
       let roomNumber= document.getElementById('roomNumber').value
+      roomNumber = Number(roomNumber)
       let roomType = document.getElementById('roomType').value
       try{
         if(roomNumber == '' || roomType == 'none'){

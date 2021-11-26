@@ -28,7 +28,8 @@ function addFloor() {
 export function addRoom(floor,room) {
   room.status = true
   floor.rooms.push(room);
+  floor.rooms.sort((a,b) => a.roomNumber - b.roomNumber)
   let result = curentFloorTemplate(floor);
   render(result, document.querySelector("main"));
 }
-//TODO NEXT add form for room info
+
