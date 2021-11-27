@@ -114,7 +114,7 @@ function showRooms(e) {
 function closeFloor(e){
     renderFloors(floors)
 }
-
+//TODO fix bug with incorrect index
 function deleteRoom(e,floor){
   if(e.target.tagName == 'BUTTON' && e.target.classList.contains('bg-danger')){
     let confirmed = confirm('Are you sure you want to remove this room?')
