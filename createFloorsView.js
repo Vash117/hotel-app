@@ -1,27 +1,27 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
-import { floors, renderFloors ,loadHome} from "./app.js";
+import { floors, renderFloors, loadHome } from "./app.js";
 import { roomForm } from "./AddRoom.js";
 
 export const floorsTemplate = (addFloor, floors) => html`
-<div class="container">
- <button
-    @click=${loadHome}
+  <div class="container">
+    <button
+      @click=${loadHome}
       type="button"
       class="btn-close float-end"
       aria-label="Close"
     ></button>
     <h1 class="text-center">All Floors</h1>
-  <div
-    @click=${addFloor}
-    class="d-grid gap-2 col-sm-6 col-md-6 col-lg-3 mx-auto my-5 bg-secondary"
-  >
-    <button class="btn  btn-secondary" type="button">Create floor</button>
-  </div>
-  <div @click=${showRooms} id="floor-container" class="container">
-    <div class="row text-center justify-content-center">
-      ${floors ? floors.map((floor, i) => floorTemplate(floor, i)) : ""}
+    <div
+      @click=${addFloor}
+      class="d-grid gap-2 col-sm-6 col-md-6 col-lg-3 mx-auto my-5 bg-secondary"
+    >
+      <button class="btn  btn-secondary" type="button">Create floor</button>
     </div>
-  </div>
+    <div @click=${showRooms} id="floor-container" class="container">
+      <div class="row text-center justify-content-center">
+        ${floors ? floors.map((floor, i) => floorTemplate(floor, i)) : ""}
+      </div>
+    </div>
   </div>
 `;
 const floorTemplate = (floor, i) => html`
@@ -36,14 +36,14 @@ const floorTemplate = (floor, i) => html`
   </div>
 `;
 export const curentFloorTemplate = (floor) => html`
-  <div @click=${e =>deleteRoom(e,floor)} class="container text-center my-3">
+  <div @click=${(e) => deleteRoom(e, floor)} class="container text-center my-3">
     <button
-    @click=${closeFloor}
+      @click=${closeFloor}
       type="button"
       class="btn-close float-end"
       aria-label="Close"
     ></button>
-    <h1>Floor ${ floor.floorNumber}</h1>
+    <h1>Floor ${floor.floorNumber}</h1>
     <button @click=${(e) => roomForm(floor)} class="btn btn-success">
       Create room
     </button>
@@ -56,7 +56,7 @@ export const curentFloorTemplate = (floor) => html`
   </div>
 `;
 const roomTemplate = (room) => html`
-  <div class="col-lg-8 ${room.status ? 'bg-success my-1' : 'bg-danger'}">
+  <div class="col-lg-8 ${room.status ? "bg-success my-1" : "bg-danger"}">
     <div class="card">
       <div class="card-body">
         <button
@@ -64,7 +64,9 @@ const roomTemplate = (room) => html`
           class="btn-close float-end bg-danger"
           aria-label="Close"
         ></button>
-        <h5 class="card-title">Room ${room.roomNumber}</h5>
+        <h5 class="card-title" data-id=${room.roomNumber}>
+          Room ${room.roomNumber}
+        </h5>
         <p class="card-text">${room.roomType}</p>
         <div class="accordion" id="accordionExample${room.roomNumber}">
           <div class="accordion-item">
@@ -111,21 +113,22 @@ function showRooms(e) {
   render(result, document.querySelector("main"));
 }
 
-function closeFloor(e){
-    renderFloors(floors)
+function closeFloor(e) {
+  renderFloors(floors);
 }
 
-function deleteRoom(e,floor){
-  if(e.target.tagName == 'BUTTON' && e.target.classList.contains('bg-danger')){
-    let confirmed = confirm('Are you sure you want to remove this room?')
-    if(confirmed){
-    let index = e.target.parentNode.querySelector('.card-title').innerText.split(' ')[1]
-    index=Number(index) - 1
-    floor.rooms.splice(index,1)
-    
-    let result = curentFloorTemplate(floor);
-    render(result, document.querySelector("main"));
+function deleteRoom(e, floor) {
+  if (
+    e.target.tagName == "BUTTON" &&
+    e.target.classList.contains("bg-danger")
+  ) {
+    let confirmed = confirm("Are you sure you want to remove this room?");
+    if (confirmed) {
+      let index = e.target.parentNode.querySelector(".card-title").dataset.id;
+      let curent = floor.rooms.find((room) => room.roomNumber == index);
+      floor.rooms.splice(floor.rooms.indexOf(curent), 1);
+      let result = curentFloorTemplate(floor);
+      render(result, document.querySelector("main"));
     }
-    
   }
 }
