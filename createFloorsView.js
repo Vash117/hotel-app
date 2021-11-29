@@ -28,6 +28,12 @@ const floorTemplate = (floor, i) => html`
   <div class="col-sm-5 col-lg-5 bg-primary my-1">
     <div class="card">
       <div class="card-body">
+        <button
+          type="button"
+          class="btn-close float-end bg-danger"
+          aria-label="Close"
+          data-id=${i}
+        ></button>
         <h5 class="card-title">Floor: ${floor.floorNumber}</h5>
         <p class="card-text">rooms in floor: ${floor.rooms.length}</p>
         <button class="btn btn-secondary" data-id=${i}>Show floor</button>
@@ -107,10 +113,16 @@ const roomTemplate = (room) => html`
   </div>
 `;
 function showRooms(e) {
-  let index = e.target.dataset.id;
-  let curentFloor = floors[index];
-  let result = curentFloorTemplate(curentFloor);
-  render(result, document.querySelector("main"));
+  if (e.target.tagName == "BUTTON" && e.target.innerText == "Show floor") {
+    let index = e.target.dataset.id;
+    let curentFloor = floors[index];
+    let result = curentFloorTemplate(curentFloor);
+    render(result, document.querySelector("main"));
+  } else if (e.target.classList.contains("bg-danger")) {
+    let index = e.target.dataset.id;
+    floors.splice(index, 1);
+    renderFloors(floors);
+  }
 }
 
 function closeFloor(e) {
