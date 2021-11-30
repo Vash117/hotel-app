@@ -1,7 +1,8 @@
 import { render } from "./node_modules/lit-html/lit-html.js";
 import { mainViewTemplate } from "./homeView.js";
 import { floorsTemplate, curentFloorTemplate } from "./createFloorsView.js";
-// window.addEventListener("load", loadHome);
+import {renderNewGuest} from './newGuest.js'
+window.addEventListener("load", loadHome);
 
 export const buttonsObj = {
   Floors: renderFloors,
