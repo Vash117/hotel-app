@@ -12,7 +12,8 @@ export const mainViewTemplate = () =>html`
 
 function findTarget(e){  
     if(e.target.tagName =='BUTTON'){
-        let key = e.target.innerText      
+        let key = e.target.innerText.split(' ').join('')
+        console.log(key);   
         buttonsObj[key](floors)
     }
 }
