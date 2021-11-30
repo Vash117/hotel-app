@@ -119,9 +119,13 @@ function showRooms(e) {
     let result = curentFloorTemplate(curentFloor);
     render(result, document.querySelector("main"));
   } else if (e.target.classList.contains("bg-danger")) {
+    let confirmed = confirm("Are you sure you want to remove this floor?");
+    if(confirmed){
     let index = e.target.dataset.id;
     floors.splice(index, 1);
+    reduceNuber(index)
     renderFloors(floors);
+    }
   }
 }
 
@@ -142,5 +146,12 @@ function deleteRoom(e, floor) {
       let result = curentFloorTemplate(floor);
       render(result, document.querySelector("main"));
     }
+  }
+}
+
+function reduceNuber(index){
+  for(let i = index; i< floors.length;i++){
+    let curentFloor = floors[i];
+    curentFloor.floorNumber--
   }
 }
