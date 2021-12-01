@@ -8,7 +8,11 @@ export const buttonsObj = {
   Floors: renderFloors,
   NewGuest: renderNewGuest,
 };
+
+export  const clientDatabase =[];
+
 export const floors = [];
+
 export function loadHome() {
   let result = mainViewTemplate();
   render(result, document.querySelector("main"));
