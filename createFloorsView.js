@@ -95,8 +95,11 @@ const roomTemplate = (room) => html`
               data-bs-parent="#accordionExample${room.roomNumber}"
             >
               <div class="accordion-body">
-                <h5>Guest name: ${room.obj ? `${room.obj.name}` : '...'}</h5>
-                <p>Guest stay from ${room.obj ? `${room.obj.fromDate}` : '...'} to ${room.obj ? `${room.obj.toDate}` : '...'} </p>
+                <h5>Guest name: ${room.obj ? `${room.obj.name}` : "..."}</h5>
+                <p>
+                  Guest stay from ${room.obj ? `${room.obj.fromDate}` : "..."}
+                  to ${room.obj ? `${room.obj.toDate}` : "..."}
+                </p>
                 <p>Total price</p>
                 <div class="card-footer">
                   <button class="btn btn-secondary" type="button">
@@ -120,11 +123,11 @@ function showRooms(e) {
     render(result, document.querySelector("main"));
   } else if (e.target.classList.contains("bg-danger")) {
     let confirmed = confirm("Are you sure you want to remove this floor?");
-    if(confirmed){
-    let index = e.target.dataset.id;
-    floors.splice(index, 1);
-    reduceNuber(index)
-    renderFloors(floors);
+    if (confirmed) {
+      let index = e.target.dataset.id;
+      floors.splice(index, 1);
+      reduceNuber(index);
+      renderFloors(floors);
     }
   }
 }
@@ -149,9 +152,9 @@ function deleteRoom(e, floor) {
   }
 }
 
-function reduceNuber(index){
-  for(let i = index; i< floors.length;i++){
+function reduceNuber(index) {
+  for (let i = index; i < floors.length; i++) {
     let curentFloor = floors[i];
-    curentFloor.floorNumber--
+    curentFloor.floorNumber--;
   }
 }

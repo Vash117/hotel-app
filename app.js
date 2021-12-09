@@ -1,7 +1,7 @@
 import { render } from "./node_modules/lit-html/lit-html.js";
 import { mainViewTemplate } from "./homeView.js";
 import { floorsTemplate, curentFloorTemplate } from "./createFloorsView.js";
-import {renderNewGuest} from './newGuest.js'
+import { renderNewGuest } from "./newGuest.js";
 window.addEventListener("load", loadHome);
 
 export const buttonsObj = {
@@ -9,7 +9,7 @@ export const buttonsObj = {
   NewGuest: renderNewGuest,
 };
 
-export  const clientDatabase =[];
+export const clientDatabase = [];
 
 export const floors = [];
 
@@ -31,11 +31,10 @@ function addFloor() {
   floors.push(floor);
   renderFloors(floors);
 }
-export function addRoom(floor,room) {
-  room.status = true
+export function addRoom(floor, room) {
+  room.status = true;
   floor.rooms.push(room);
-  floor.rooms.sort((a,b) => a.roomNumber - b.roomNumber)
+  floor.rooms.sort((a, b) => a.roomNumber - b.roomNumber);
   let result = curentFloorTemplate(floor);
   render(result, document.querySelector("main"));
 }
-
