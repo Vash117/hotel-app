@@ -86,7 +86,7 @@ const addToRoomTemplate = (guest, floorRooms, onAddingInRoom) => html`
       <select class="form-control" id="rooms" name="room">
         ${floorRooms
           ? floorRooms.map((room) => makeRoomOptions(room))
-          : floors[0].rooms.map((room) => makeRoomOptions(room))}
+          : floors[0].rooms.filter((room) => room.status == true).map((room) => makeRoomOptions(room))}
       </select>
       <fieldset>
         <legend>Period</legend>
