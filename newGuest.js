@@ -1,6 +1,6 @@
 import {html, render} from './node_modules/lit-html/lit-html.js';
 import { loadHome ,clientDatabase,floors} from './app.js';
-
+import {curentFloorTemplate} from './createFloorsView.js'
 const guestFormTemplate =(onSubmit , change ,invalid =false , sugest = '')=>html`
  <div class="container text-center col-md-5">
  <button
@@ -50,8 +50,8 @@ const addToRoomTemplate = (guest ,floorRooms,onAddingInRoom)=>html`
       ></button>
       <form  class="form-control">
         <label for="guest">Guest:</label>
-        <select class="form-control" name="guest">          
-          <option selected>${guest.name}</option>
+        <select type="text" class="form-control" name="guest">          
+          <option selected>${guest ? guest.name : clientDatabase[0].name}</option>
           ${clientDatabase.map(client => optionCreatorTemplate(client))}
         </select>
         <label for="floor">Floor:</label>
@@ -59,9 +59,17 @@ const addToRoomTemplate = (guest ,floorRooms,onAddingInRoom)=>html`
           ${floors.map(floor => makeFloorOptionsTemplate(floor))}          
         </select>
         <label for="room">Room:</label>
-        <select class="form-control" id="rooms"name="room">          
-          ${floorRooms.map(room => makeRoomOptions(room))}
+        <select class="form-control" id="rooms" name="room">
+                   
+          ${ floorRooms ? floorRooms.map(room => makeRoomOptions(room)) : floors[0].rooms.map(room => makeRoomOptions(room))}
         </select>
+        <fieldset>
+          <legend>Period</legend>
+          <label for="from">From Date</label>
+        <input type="date" name='from'>
+        <label for="to">To Date</label>
+        <input type="date" name='to'>
+        </fieldset>
         <button @click=${onAddingInRoom} type="button" class="btn btn-primary" >Add in room</button>
         </form>
      </div>
@@ -85,8 +93,8 @@ export function renderNewGuest(){
        sex,
        info,
      }
-     newCustemor.id = clientDatabase.length +1
-     clientDatabase.push(newCustemor)  
+     newCustemor.id = clientDatabase.length + 1
+     clientDatabase.unshift(newCustemor)     
      displayAddToRoomTempalte(newCustemor)
       }
     function change(e){
@@ -110,8 +118,11 @@ const makeFloorOptionsTemplate= (floor) =>html`
 function optionRoomCreate(e){
  let id = e.target.options[e.target.options.selectedIndex].dataset.id;
  const curentSelectedFloor = floors.find(floor => floor.floorNumber == id);
- let result = curentSelectedFloor.rooms.map(room =>makeRoomOptions(room));
- render(result, document.getElementById('rooms'))
+
+ let curent = curentSelectedFloor.rooms.filter(room => room.status == true);
+
+ 
+ displayAddToRoomTempalte( '',curent)
 }
 const makeRoomOptions = (room) =>html`
 <option data-roomId=${room.roomNumber}>Room ${room.roomNumber}</option>
@@ -121,14 +132,31 @@ function AddToRoom(e){
   displayAddToRoomTempalte()
 }
 
-function displayAddToRoomTempalte(guest= '',floorRooms = floors[0].rooms){
+function displayAddToRoomTempalte(guest= '',floorRooms = ''){
 let result = addToRoomTemplate(guest , floorRooms,onAddingInRoom)
 render(result ,document.querySelector("main"))
 
 
 function onAddingInRoom(e){
- 
-  console.log('here')
+ let formData = new FormData(e.target.parentNode);
+ let name = formData.get('guest');
+ let floor = formData.get('floor').split(' ')[1];
+ let roomNum = formData.get('room').split(' ')[1];
+let fromDate = formData.get('from');
+let toDate = formData.get('to')
+let obj = {
+  name, 
+  fromDate,
+  toDate
+}
+
+let renderdFloor = floors.find(floorN => floorN.floorNumber == floor)
+renderdFloor.rooms.find(room =>room.roomNumber == roomNum).status = false
+renderdFloor.rooms.find(room =>room.roomNumber == roomNum).obj = obj
+console.log(renderdFloor.rooms.find(room =>room.roomNumber == roomNum));
+ let resulter  =  curentFloorTemplate(renderdFloor)
+render(resulter, document.querySelector("main"));
+console.log('here');
 }
 
 }

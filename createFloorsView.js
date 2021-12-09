@@ -95,8 +95,8 @@ const roomTemplate = (room) => html`
               data-bs-parent="#accordionExample${room.roomNumber}"
             >
               <div class="accordion-body">
-                <h5>Guest name</h5>
-                <p>Guest stay from... to...</p>
+                <h5>Guest name: ${room.obj ? `${room.obj.name}` : '...'}</h5>
+                <p>Guest stay from ${room.obj ? `${room.obj.fromDate}` : '...'} to ${room.obj ? `${room.obj.toDate}` : '...'} </p>
                 <p>Total price</p>
                 <div class="card-footer">
                   <button class="btn btn-secondary" type="button">
