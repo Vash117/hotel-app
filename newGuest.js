@@ -1,5 +1,5 @@
 import {html, render} from './node_modules/lit-html/lit-html.js';
-import { loadHome ,clientDatabase} from './app.js';
+import { loadHome ,clientDatabase,floors} from './app.js';
 
 const guestFormTemplate =(onSubmit , change ,invalid =false , sugest = '')=>html`
  <div class="container text-center col-md-5">
@@ -40,8 +40,31 @@ const guestFormTemplate =(onSubmit , change ,invalid =false , sugest = '')=>html
     </form>
     </div>
 `
-const addToRoomTemplate = ()=>html`
-
+const addToRoomTemplate = (guest ,floorRooms,onAddingInRoom)=>html`
+ <div class="container text-center col-md-5">
+      <button    
+        type="button"
+        class="btn-close float-end"
+        aria-label="Close"
+        @click =${renderNewGuest}
+      ></button>
+      <form  class="form-control">
+        <label for="guest">Guest:</label>
+        <select class="form-control" name="guest">          
+          <option selected>${guest.name}</option>
+          ${clientDatabase.map(client => optionCreatorTemplate(client))}
+        </select>
+        <label for="floor">Floor:</label>
+        <select @change=${ (e)=>optionRoomCreate(e)} class="form-control" name="floor">          
+          ${floors.map(floor => makeFloorOptionsTemplate(floor))}          
+        </select>
+        <label for="room">Room:</label>
+        <select class="form-control" id="rooms"name="room">          
+          ${floorRooms.map(room => makeRoomOptions(room))}
+        </select>
+        <button @click=${onAddingInRoom} type="button" class="btn btn-primary" >Add in room</button>
+        </form>
+     </div>
 `
 export function renderNewGuest(){
     let result = guestFormTemplate(onSubmit,change);
@@ -76,11 +99,36 @@ export function renderNewGuest(){
     }
 }
 
+const optionCreatorTemplate =(client) =>html`
+<option>${client.name}</option>
+`
+
+const makeFloorOptionsTemplate= (floor) =>html`
+<option data-id=${floor.floorNumber}>Floor ${floor.floorNumber}</option>
+`
+  
+function optionRoomCreate(e){
+ let id = e.target.options[e.target.options.selectedIndex].dataset.id;
+ const curentSelectedFloor = floors.find(floor => floor.floorNumber == id);
+ let result = curentSelectedFloor.rooms.map(room =>makeRoomOptions(room));
+ render(result, document.getElementById('rooms'))
+}
+const makeRoomOptions = (room) =>html`
+<option data-roomId=${room.roomNumber}>Room ${room.roomNumber}</option>
+`
 function AddToRoom(e){
   e.preventDefault();
   displayAddToRoomTempalte()
 }
 
-function displayAddToRoomTempalte(guest= ''){
+function displayAddToRoomTempalte(guest= '',floorRooms = floors[0].rooms){
+let result = addToRoomTemplate(guest , floorRooms,onAddingInRoom)
+render(result ,document.querySelector("main"))
+
+
+function onAddingInRoom(e){
+ 
+  console.log('here')
+}
 
 }
