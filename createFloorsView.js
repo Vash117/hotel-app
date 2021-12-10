@@ -1,7 +1,7 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
 import { floors, renderFloors, loadHome } from "./app.js";
 import { roomForm } from "./AddRoom.js";
-
+import { displayModal } from "./roomDetails.js";
 export const floorsTemplate = (addFloor, floors) => html`
   <div class="container">
     <button
@@ -102,7 +102,7 @@ const roomTemplate = (room) => html`
                 </p>
                 <p>Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
                 <div class="card-footer">
-                  <button class="btn btn-secondary" type="button">
+                  <button @click=${displayModal} class="btn btn-secondary" type="button">
                     Details
                   </button>
                   <button class="btn btn-success" type="button">Pay</button>

@@ -6,3 +6,25 @@ header{
     color: blanchedalmond;
     border-radius: 10%;
 }
+
+.modal-holder{
+    display: flex;
+    width: 100vw;
+    height: 100vh;     
+    position: absolute;
+    top: 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    opacity: .8;
+    z-index: 1;
+    flex-direction: column;
+    color: black;
+}
+.details-page{
+   border: 2px solid grey;
+   z-index: 2;
+   background-color: wheat;
+   color: black;
+}
