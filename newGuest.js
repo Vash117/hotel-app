@@ -91,7 +91,7 @@ const addToRoomTemplate = (guest, floorRooms, onAddingInRoom) => html`
       <fieldset>
         <legend>Period</legend>
         <label for="from">From Date</label>
-        <input type="date" name="from" />
+        <input type="text" id="dateFrom" name="from" .value=${new Date().toLocaleString().split(', ')[0]} />
         <label for="to">To Date</label>
         <input type="date" name="to" />
       </fieldset>
@@ -167,20 +167,25 @@ function AddToRoom(e) {
   displayAddToRoomTempalte();
 }
 
-function displayAddToRoomTempalte(guest = "", floorRooms = "") {
+function displayAddToRoomTempalte(guest = "", floorRooms = "") { 
   let result = addToRoomTemplate(guest, floorRooms, onAddingInRoom);
   render(result, document.querySelector("main"));
+   
 
   function onAddingInRoom(e) {
     let formData = new FormData(e.target.parentNode);
     let name = formData.get("guest");
     let floor = formData.get("floor").split(" ")[1];
     let roomNum = formData.get("room").split(" ")[1];
-    let fromDate = formData.get("from");
+    let fromDate = formData.get("from").replaceAll('/','-').split('-');
+    let item = fromDate.pop();
+    fromDate.unshift(item)
+   
+    
     let toDate = formData.get("to");
     let obj = {
       name,
-      fromDate,
+      fromDate: fromDate.join('-'),
       toDate,
     };
 
@@ -192,6 +197,6 @@ function displayAddToRoomTempalte(guest = "", floorRooms = "") {
     console.log(renderdFloor.rooms.find((room) => room.roomNumber == roomNum));
     let resulter = curentFloorTemplate(renderdFloor);
     render(resulter, document.querySelector("main"));
-    console.log("here");
+    
   }
 }

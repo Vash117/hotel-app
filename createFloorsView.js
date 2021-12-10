@@ -100,7 +100,7 @@ const roomTemplate = (room) => html`
                   Guest stay from ${room.obj ? `${room.obj.fromDate}` : "..."}
                   to ${room.obj ? `${room.obj.toDate}` : "..."}
                 </p>
-                <p>Total price</p>
+                <p>Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
                 <div class="card-footer">
                   <button class="btn btn-secondary" type="button">
                     Details
@@ -157,4 +157,27 @@ function reduceNuber(index) {
     let curentFloor = floors[i];
     curentFloor.floorNumber--;
   }
+}
+
+
+function totalPrice(fromDate , todate,type){
+  let multyplayer;
+  if(type === 'single'){
+    multyplayer = 30;
+  }else if(type === 'double'){
+    multyplayer = 40;
+  }else{
+    multyplayer = 50
+  }
+let from = convertToDays(fromDate);
+let to = convertToDays(todate);
+let result =Math.abs(from - to);
+return result * multyplayer
+}
+
+function convertToDays(str){
+  let numArr =str.split('-').map(Number)
+  let [years,months,days] = numArr;
+  let totaldays = (years*365) + (months+30) + days;
+  return totaldays
 }
