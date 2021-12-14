@@ -12,7 +12,7 @@ export const buttonsObj = {
 };
 
 export const clientDatabase = [];
-
+export const roomServicemenu =[];
 export const floors = [];
 
 export function loadHome() {
