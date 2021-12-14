@@ -2,11 +2,13 @@ import { render } from "./node_modules/lit-html/lit-html.js";
 import { mainViewTemplate } from "./homeView.js";
 import { floorsTemplate, curentFloorTemplate } from "./createFloorsView.js";
 import { renderNewGuest } from "./newGuest.js";
+import {renderRoomservice} from './roomService.js'
 window.addEventListener("load", loadHome);
 
 export const buttonsObj = {
   Floors: renderFloors,
   NewGuest: renderNewGuest,
+  RoomService: renderRoomservice,
 };
 
 export const clientDatabase = [];
