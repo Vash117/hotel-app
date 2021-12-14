@@ -100,12 +100,12 @@ const roomTemplate = (room,floorNum) => html`
                   Guest stay from ${room.obj ? `${room.obj.fromDate}` : "..."}
                   to ${room.obj ? `${room.obj.toDate}` : "..."}
                 </p>
-                <p>Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
+                <p class="total-price">Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
                 <div class="card-footer">
                   <button @click=${(e) =>displayModal(e,room.roomNumber,floorNum)}  class="btn btn-secondary" type="button">
                     Details
                   </button>
-                  <button class="btn btn-success" type="button">Pay</button>
+                  <button @click=${(e) =>payBill(e,room.roomNumber,floorNum)} class="btn btn-success" type="button">Pay</button>
                 </div>
               </div>
             </div>
@@ -180,4 +180,17 @@ export function convertToDays(str){
   let [years,months,days] = numArr;
   let totaldays = (years*365) + (months+30) + days;
   return totaldays
+}
+
+
+function payBill(e,roomId,floorNumber){
+  const curentRoom =floors[floorNumber].rooms.find(room => room.roomNumber == roomId);
+  let totalBill = e.target.parentNode.parentNode.querySelector('.total-price');
+  let confirmed = confirm(`Pay total bill: ${totalBill.innerText.split(' ')[2]}`)
+  if(confirmed){
+     delete curentRoom.obj;
+     curentRoom.status = true;
+     let result = curentFloorTemplate(floors[floorNumber]);
+     render(result,document.querySelector('main'))
+  }
 }
