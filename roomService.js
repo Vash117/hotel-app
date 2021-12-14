@@ -72,7 +72,7 @@ try{
 }
 
 const tebleMenuTemplate= ()=>html`
-<div class="container text-center">        
+<div @click=${(e) =>targetButton(e)} class="container text-center">        
       <table class="table table-striped table-hover">
        <thead>
         Menu
@@ -106,3 +106,82 @@ function displaMenuDetails(e){
    let result = tebleMenuTemplate();
    render(result,document.querySelector('main'))
 }
+
+function targetButton(e){
+    e.preventDefault();
+   if(e.target.tagName === 'BUTTON'){
+       if(e.target.innerText === 'Edit'){
+             let index =Number(e.target.parentNode.parentNode.querySelector('td').innerText) - 1;
+        editItem(index)
+       }else if(e.target.innerText == 'Delete'){
+           let index =Number(e.target.parentNode.parentNode.querySelector('td').innerText) - 1;
+           removeItem(index)
+       }else if(e.target.innerText === 'Back'){
+        displayMenu()
+       }
+   }
+}
+
+function removeItem(index){
+    let confirmed = confirm('Are you sure you want to delete this item');
+    if(confirmed){
+    roomServicemenu.splice(index,1);
+    render(tebleMenuTemplate(),document.querySelector('main'))
+    }
+}
+
+
+const editTemplate =(item,index,err='') =>html`
+<div class="container text-center col-md-5">
+        <button
+          type="button"
+          class="btn-close float-end"
+          aria-label="Close"
+          @click=${tebleMenuTemplate}
+        ></button>
+        <form class="form-control">
+          <legend>Edit item:</legend>
+          <div class="row">
+          ${ err ? html`<p class="text-danger">${err}</p>`:''}
+            <div class="col-9">            
+              <input type="text" class="form-control" name="item"  placeholder="Item Name" .value=${item.itemName}/>
+            </div>
+            <div class="col-3">            
+              <input type="number" name="price" class="form-control" placeholder="Price" .value=${item.price}/>
+            </div>
+          </div>
+            <div class="my-3">
+          <button @click=${ (e)=>displaMenuDetails(e)} type="button" class="btn btn-primary">Cancel</button>
+          <button @click=${ (e) =>addEditedItem(e)} data-id=${index} type="button" class="btn btn-primary">Edit Item</button>
+        </div>
+        </form>
+      </div> 
+`
+
+function editItem(index){
+ let curentItem = roomServicemenu[index]; 
+ let result = editTemplate(curentItem,index);
+ render(result,document.querySelector('main'))
+ 
+ 
+}
+
+function addEditedItem(e){
+    e.preventDefault();
+    let curentItem = roomServicemenu[e.target.dataset.id]
+    let index = e.target.dataset.id;
+    roomServicemenu.splice(index,1);
+    let form = e.target.parentNode.parentNode;
+    let formdata= new FormData(form)
+    let itemName = formdata.get('item');
+    let price =formdata.get('price')
+    try{
+        if(itemName =='' || price == ''){
+            throw new Error('Invalid field or fields!!!')
+        }
+        roomServicemenu.splice(index,1,{itemName,price});  
+       render(tebleMenuTemplate(),document.querySelector('main'))
+    }catch(err){    
+        render(editTemplate(curentItem,index,err.massage), document.querySelector('main'))
+    }
+    }
