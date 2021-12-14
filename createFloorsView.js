@@ -56,12 +56,12 @@ export const curentFloorTemplate = (floor) => html`
     <div class="row text-center justify-content-center">
       <!-- room details -->
       ${floor.rooms.length > 0
-        ? floor.rooms.map((room) => roomTemplate(room))
+        ? floor.rooms.map((room) => roomTemplate(room ,floor.floorNumber-1))
         : ""}
     </div>
   </div>
 `;
-const roomTemplate = (room) => html`
+const roomTemplate = (room,floorNum) => html`
   <div class="col-lg-8 ${room.status ? "bg-success my-1" : "bg-danger"}">
     <div class="card">
       <div class="card-body">
@@ -102,7 +102,7 @@ const roomTemplate = (room) => html`
                 </p>
                 <p>Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
                 <div class="card-footer">
-                  <button @click=${displayModal} class="btn btn-secondary" type="button">
+                  <button @click=${(e) =>displayModal(e,room.roomNumber,floorNum)}  class="btn btn-secondary" type="button">
                     Details
                   </button>
                   <button class="btn btn-success" type="button">Pay</button>
@@ -160,7 +160,7 @@ function reduceNuber(index) {
 }
 
 
-function totalPrice(fromDate , todate,type){
+ export function totalPrice(fromDate , todate, type){
   let multyplayer;
   if(type === 'single'){
     multyplayer = 30;
@@ -175,7 +175,7 @@ let result =Math.abs(from - to);
 return result * multyplayer
 }
 
-function convertToDays(str){
+export function convertToDays(str){
   let numArr =str.split('-').map(Number)
   let [years,months,days] = numArr;
   let totaldays = (years*365) + (months+30) + days;
