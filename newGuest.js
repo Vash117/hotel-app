@@ -193,8 +193,7 @@ function displayAddToRoomTempalte(guest = "", floorRooms = "") {
     renderdFloor.rooms.find(
       (room) => room.roomNumber == roomNum
     ).status = false;
-    renderdFloor.rooms.find((room) => room.roomNumber == roomNum).obj = obj;
-    console.log(renderdFloor.rooms.find((room) => room.roomNumber == roomNum));
+    renderdFloor.rooms.find((room) => room.roomNumber == roomNum).obj = obj;   
     let resulter = curentFloorTemplate(renderdFloor);
     render(resulter, document.querySelector("main"));
     
