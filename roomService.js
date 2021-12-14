@@ -71,7 +71,38 @@ try{
 }
 }
 
+const tebleMenuTemplate= ()=>html`
+<div class="container text-center">        
+      <table class="table table-striped table-hover">
+       <thead>
+        Menu
+       </thead>
+       <tr>
+         <th class="col-1">#</th>
+         <th class="col-5">NAME</th>
+         <th class="col-4">PRICE</th>
+         <th class="col-1"></th>
+         <th class="col-1"></th>
+       </tr>
+       <tbody >
+         ${roomServicemenu.map((item,i)=>rowTemplate(item,i))}
+       </tbody>
+      </table>       
+      <button type="button" class="btn btn-secondary">Back</button>
+    </div>
+`
+
+const rowTemplate = (item,i) =>html`
+<tr>
+          <td class="col-1">${i + 1}</td>
+          <td class="col-5">${item.itemName}</td>
+          <td class="col-4">${item.price}lv.</td>
+          <td class="col-1 bg-primary"><button class="btn text-white">Edit</button> </td>
+          <td class="col-1 bg-danger"><button class="btn text-white">Delete</button></td>
+         </tr>         
+`
 function displaMenuDetails(e){
     e.preventDefault();
-    console.log('here');
+   let result = tebleMenuTemplate();
+   render(result,document.querySelector('main'))
 }
