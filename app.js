@@ -3,7 +3,7 @@ import { mainViewTemplate } from "./homeView.js";
 import { floorsTemplate, curentFloorTemplate } from "./createFloorsView.js";
 import { renderNewGuest } from "./newGuest.js";
 import {renderRoomservice} from './roomService.js'
-window.addEventListener("load", loadHome);
+// window.addEventListener("load", loadHome);
 
 export const buttonsObj = {
   Floors: renderFloors,

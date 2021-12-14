@@ -1,6 +1,6 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
 import {mainViewTemplate} from './homeView.js'
-
+import {roomServicemenu} from './app.js'
 
 const roomServiceTemplate =() =>html`     
      <div class="container text-center justify-content-center">        
@@ -12,7 +12,7 @@ const roomServiceTemplate =() =>html`
     </div>
 `
 
-const menuTemplate =() => html`
+const menuTemplate =(err='') => html`
       <div class="container text-center col-md-5">
         <button
           type="button"
@@ -23,7 +23,7 @@ const menuTemplate =() => html`
         <form class="form-control">
           <legend>Add item in menu</legend>
           <div class="row">
-            <p class="text-danger">Invalid field</p>
+          ${ err ? html`<p class="text-danger">${err}</p>`:''}
             <div class="col-9">            
               <input type="text" class="form-control" name="item" placeholder="Item Name" aria-label="First name">
             </div>
@@ -32,8 +32,8 @@ const menuTemplate =() => html`
             </div>
           </div>
             <div class="my-3">
-          <button type="button" class="btn btn-primary">Show Menu</button>
-          <button type="button" class="btn btn-primary">Add item in menu</button>
+          <button @click=${ (e)=>displaMenuDetails(e)} type="button" class="btn btn-primary">Show Menu</button>
+          <button @click=${ (e) =>addItem(e)} type="button" class="btn btn-primary">Add item in menu</button>
         </div>
         </form>
       </div> 
@@ -52,4 +52,26 @@ function backToMenu(){
 function displayMenu(){
     const result = menuTemplate();
     render(result , document.querySelector('main'))
+};
+function addItem(e){
+e.preventDefault();
+let form = e.target.parentNode.parentNode;
+let formData = new FormData(form);
+let itemName = formData.get('item');
+let price =formData.get('price')
+
+try{
+    if(itemName =='' || price == ''){
+        throw new Error('Invalid field or fields!!!')
+    }
+    roomServicemenu.push({itemName,price});  
+    form.reset()
+}catch(err){    
+    render(menuTemplate(err), document.querySelector('main'))
+}
+}
+
+function displaMenuDetails(e){
+    e.preventDefault();
+    console.log('here');
 }
