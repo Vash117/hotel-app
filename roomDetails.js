@@ -6,7 +6,7 @@ import {
   curentFloorTemplate,
 } from "./createFloorsView.js";
 
-const modaltemplate = ( room, floorNumber) => html`
+const modaltemplate = (room, floorNumber) => html`
   <div class="container-fluid modal-holder">
     <div class="details-page">
       <button
@@ -58,18 +58,18 @@ const modaltemplate = ( room, floorNumber) => html`
 `;
 
 export function displayModal(e, id, floorNumber) {
-  try{
+  try {
     const curentRoom = floors[floorNumber].rooms.find(
       (room) => room.roomNumber == id
-      );
-    if(!curentRoom.obj){
-      throw new Error('Room is free!!')
+    );
+    if (!curentRoom.obj) {
+      throw new Error("Room is free!!");
     }
 
     let result = modaltemplate(curentRoom, floorNumber);
     render(result, document.querySelector("main"));
-  }catch(err){
-    alert(err.message)
+  } catch (err) {
+    alert(err.message);
   }
 }
 function closeModal(curentFloor) {
