@@ -151,7 +151,7 @@ const makeFloorOptionsTemplate = (floor) => html`
   <option data-id=${floor.floorNumber}>Floor ${floor.floorNumber}</option>
 `;
 
-function optionRoomCreate(e) {
+export function optionRoomCreate(e) {
   let id = e.target.options[e.target.options.selectedIndex].dataset.id;
   const curentSelectedFloor = floors.find((floor) => floor.floorNumber == id);
   let curent = curentSelectedFloor.rooms.filter((room) => room.status == true);
