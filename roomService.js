@@ -1,11 +1,11 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
 import {mainViewTemplate} from './homeView.js'
 import {roomServicemenu} from './app.js'
-
+import { orderSetView} from './order.js'
 const roomServiceTemplate =() =>html`     
      <div class="container text-center justify-content-center">        
       <div class="row col-sm-6 col-md-6 col-lg-3  text-center justify-content-center mx-auto">   
-        <button type="button" class="btn btn-secondary my-2">Order</button>
+        <button @click=${orderSetView} type="button" class="btn btn-secondary my-2">Order</button>
         <button @click=${displayMenu} type="button" class="btn btn-secondary my-2">Menu</button>
         <button @click=${backToMenu} type="button" class="btn btn-secondary my-2">Back</button>
       </div>

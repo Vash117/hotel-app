@@ -154,9 +154,7 @@ const makeFloorOptionsTemplate = (floor) => html`
 function optionRoomCreate(e) {
   let id = e.target.options[e.target.options.selectedIndex].dataset.id;
   const curentSelectedFloor = floors.find((floor) => floor.floorNumber == id);
-
   let curent = curentSelectedFloor.rooms.filter((room) => room.status == true);
-
   displayAddToRoomTempalte("", curent);
 }
 const makeRoomOptions = (room) => html`
