@@ -9,7 +9,7 @@ const orderTemplate = (rooms='') => html`
           aria-label="Close" 
           @click=${renderRoomservice}       
         ></button>
-        <form @submit=${(e)=>onSubmit(e)} class="form-control">
+        <form  class="form-control">
           <label for="menu">Menu:</label>
           <select type="text" class="form-control" name="menu">
             <option selected>Select Item</option>
@@ -30,7 +30,7 @@ const orderTemplate = (rooms='') => html`
            ${rooms ? rooms.map(room=>html`<option data-id=${room.roomNumber}>room ${room.roomNumber}</option>`):''}
           </select>
         
-          <button type="button" class="btn btn-primary mt-2">
+          <button @click=${(e)=>onSubmit(e)} type="button" class="btn btn-primary mt-2">
            Order
           </button>
         </form>
@@ -51,6 +51,25 @@ function setRoomsOption(e){
 }
 
 function onSubmit(e){
-  e.preventDefault();
-  console.log(e.cureentTarget);
+  e.preventDefault()
+ let form =e.target.parentNode;
+ let formData =new FormData(form);
+ let item = formData.get('menu');
+ let floor = formData.get('floor').split(' ')[1]
+ let room = formData.get('room').split(' ')[1]
+ let [date,time] = new Date().toLocaleString().split(', ')
+ let curentFloor = floors.find(cfloor => cfloor.floorNumber == floor)
+ let curentRoom = curentFloor.rooms.find(cRoom => cRoom.roomNumber == room)
+ let cprice = roomServicemenu.find(itemMenu=> itemMenu.itemName == item)
+let price = cprice.price
+ let order ={
+   item,
+   time,
+   price
+ }
+if(!curentRoom.service.hasOwnProperty(date)){
+  curentRoom.service[date]= [];
 }
+curentRoom.service[date].push(order)
+console.log(curentRoom);
+ } 

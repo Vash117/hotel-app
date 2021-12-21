@@ -35,8 +35,11 @@ function addFloor() {
 }
 export function addRoom(floor, room) {
   room.status = true;
+  room.service={}
   floor.rooms.push(room);
   floor.rooms.sort((a, b) => a.roomNumber - b.roomNumber);
   let result = curentFloorTemplate(floor);
   render(result, document.querySelector("main"));
 }
+
+

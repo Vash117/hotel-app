@@ -189,6 +189,7 @@ function payBill(e,roomId,floorNumber){
   let confirmed = confirm(`Pay total bill: ${totalBill.innerText.split(' ')[2]}`)
   if(confirmed){
      delete curentRoom.obj;
+     curentRoom.service={}
      curentRoom.status = true;
      let result = curentFloorTemplate(floors[floorNumber]);
      render(result,document.querySelector('main'))

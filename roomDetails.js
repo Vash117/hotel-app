@@ -1,5 +1,5 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
-import { floors } from "./app.js";
+import { floors ,roomServicemenu} from "./app.js";
 import {
   totalPrice,
   convertToDays,
@@ -34,29 +34,24 @@ const modaltemplate = (room, floorNumber) => html`
         </ul>
         <ul>
           Room service details:
-          <li>
-            Date 2021-12-11:
-            <ol>
-              <li>13:57 : Chicken price: 7lv.</li>
-              <li>13:57 : Chicken price: 7lv.</li>
-              <p>total : 14lv</p>
-            </ol>
-          </li>
-          <li>
-            Date 2021-12-12:
-            <ol>
-              <li>13:57 : Chicken price: 7lv.</li>
-              <li>13:57 : Chicken price: 7lv.</li>
-              <p>total : 14lv</p>
-            </ol>
-          </li>
+         ${Object.keys(room.service).map(date=>listTemplate(room,date))}
+           
         </ul>
       </ul>
       <p>Total price: 178lv.</p>
     </div>
   </div>
 `;
-
+const listTemplate =(room,date)=>html`
+<li>
+  Date ${date}:
+  <ol>
+    ${room.service[date].map(order =>html`<li>${order.time} : ${order.item} : ${order.price}lv</li>`)}
+    
+    <p style="text-decoration: underline;">Total room service price for the day : ${room.service[date].reduce((acc,item)=> acc +Number(item.price),0 )}lv</p>
+  </ol>
+</li>
+`
 export function displayModal(e, id, floorNumber) {
   try {
     const curentRoom = floors[floorNumber].rooms.find(
