@@ -112,6 +112,7 @@ function targetButton(e){
    if(e.target.tagName === 'BUTTON'){
        if(e.target.innerText === 'Edit'){
              let index =Number(e.target.parentNode.parentNode.querySelector('td').innerText) - 1;
+             console.log(index);
         editItem(index)
        }else if(e.target.innerText == 'Delete'){
            let index =Number(e.target.parentNode.parentNode.querySelector('td').innerText) - 1;
@@ -175,11 +176,15 @@ function addEditedItem(e){
     let formdata= new FormData(form)
     let itemName = formdata.get('item');
     let price =formdata.get('price')
+    let itemboj={
+      itemName,
+      price
+    }
     try{
         if(itemName =='' || price == ''){
             throw new Error('Invalid field or fields!!!')
-        }
-        roomServicemenu.splice(index,1,{itemName,price});  
+        }       
+        roomServicemenu.splice(index,0,itemboj);        
        render(tebleMenuTemplate(),document.querySelector('main'))
     }catch(err){    
         render(editTemplate(curentItem,index,err.massage), document.querySelector('main'))

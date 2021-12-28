@@ -72,4 +72,5 @@ if(!curentRoom.service.hasOwnProperty(date)){
 }
 curentRoom.service[date].push(order)
 console.log(curentRoom);
+console.log(order);
  } 
