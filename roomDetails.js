@@ -38,7 +38,7 @@ const modaltemplate = (room, floorNumber) => html`
            
         </ul>
       </ul>
-      <p>Total price: 178lv.</p>
+      <p >Total price: ${setTotalPrice(room)}lv.</p>
     </div>
   </div>
 `;
@@ -70,4 +70,12 @@ export function displayModal(e, id, floorNumber) {
 function closeModal(curentFloor) {
   let result = curentFloorTemplate(floors[curentFloor]);
   render(result, document.querySelector("main"));
+}
+
+// make total price for room service
+function setTotalPrice(room){
+let priceForStay = totalPrice(room.obj.fromDate, room.obj.toDate, room.roomType);
+let priceforService =0;
+
+return priceForStay + priceforService
 }

@@ -57,7 +57,7 @@ function addItem(e){
 e.preventDefault();
 let form = e.target.parentNode.parentNode;
 let formData = new FormData(form);
-let itemName = formData.get('item');
+let itemName = formData.get('item').trim();
 let price =formData.get('price')
 
 try{
