@@ -1,5 +1,5 @@
 import { html, render } from "./node_modules/lit-html/lit-html.js";
-import { floors ,roomServicemenu} from "./app.js";
+import { floors } from "./app.js";
 import {
   totalPrice,
   convertToDays,
@@ -73,9 +73,10 @@ function closeModal(curentFloor) {
 }
 
 // make total price for room service
-function setTotalPrice(room){
+export function setTotalPrice(room){
 let priceForStay = totalPrice(room.obj.fromDate, room.obj.toDate, room.roomType);
 let priceforService =0;
-
+let dates = Object.values(room.service);
+dates.forEach(item=>item.forEach(miniitem=>priceforService += Number(miniitem.price)))
 return priceForStay + priceforService
 }

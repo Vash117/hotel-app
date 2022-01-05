@@ -2,6 +2,7 @@ import { html, render } from "./node_modules/lit-html/lit-html.js";
 import { floors, renderFloors, loadHome } from "./app.js";
 import { roomForm } from "./AddRoom.js";
 import { displayModal } from "./roomDetails.js";
+import {setTotalPrice} from './roomDetails.js'
 export const floorsTemplate = (addFloor, floors) => html`
   <div class="container">
     <button
@@ -100,7 +101,7 @@ const roomTemplate = (room,floorNum) => html`
                   Guest stay from ${room.obj ? `${room.obj.fromDate}` : "..."}
                   to ${room.obj ? `${room.obj.toDate}` : "..."}
                 </p>
-                <p class="total-price">Total price: ${room.obj ? `${totalPrice(room.obj.fromDate,room.obj.toDate,room.roomType)}`:''}</p>
+                <p class="total-price">Total price: ${room.obj ? `${setTotalPrice(room)}`:''}</p>
                 <div class="card-footer">
                   <button @click=${(e) =>displayModal(e,room.roomNumber,floorNum)}  class="btn btn-secondary" type="button">
                     Details
